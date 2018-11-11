@@ -1,4 +1,5 @@
 import "./env";
+import "./db";
 import cors from "cors";
 import helmet from "helmet";
 import express from "express";
@@ -28,6 +29,6 @@ socketIO.on("connection", socket => {
   socket.on("disconnect", () => console.log("user disconnected"));
 });
 
-server.listen(PORT, () => console.log("> Athene listening"));
+server.listen(PORT, () => console.log("> 🦉 Athene listening"));
 
 export default app;

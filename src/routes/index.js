@@ -1,17 +1,19 @@
 import { Router } from "express";
 
-import vitals from "../controllers/vitals";
+import user from "../controllers/user";
 import vital from "../controllers/vital";
 import courier from "../controllers/courier";
 
 const apiRouter = Router();
 
-apiRouter.get("/vitals", vitals.read);
-apiRouter.post("/vitals", vitals.create);
+/* ------ User ---- */
+apiRouter.get("/auth", user.auth);
+apiRouter.get("/user", user.read);
 
-apiRouter.get("/vital", vital.read);
+/* ------ Vital ---- */
 apiRouter.post("/vital", vital.create);
 
+/* ------ Courier ---- */
 apiRouter.post("/text", courier.text);
 
 export { apiRouter };
