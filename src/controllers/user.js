@@ -1,25 +1,21 @@
-import vitalService from "../services/vitals";
-
-const { FITBIT_CALLBACK_URI } = process.env;
-
-const auth = async (req, res) => {
-  try {
-    const auth_url = await vitalService.authFitbit();
-    res.redirect(auth_url);
-  } catch (e) {
-    res.send(e);
-  }
-};
+import Vital from "../models/vitals";
 
 const read = async (req, res) => {
-  const { code } = req.query;
-
   try {
-    const vitals = await vitalService.readFitbit(code);
-    res.send({ vitals });
+    const vitals = await Vital.find();
+
+    const profile = {
+      vitals,
+      user: {
+        name: "David Castaneda",
+        pic: "http://i.imgur.com/OgAYwYor.jpg"
+      }
+    };
+
+    res.send(profile);
   } catch (e) {
     res.send(e);
   }
 };
 
-export default { auth, read };
+export default { read };

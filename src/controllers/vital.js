@@ -1,5 +1,8 @@
 import Vital from "../models/vitals";
+import { sendText } from "../services/courier";
+
 let avg = [];
+let contacted = false;
 
 const create = async (req, res) => {
   const { heartRate, barometer, accelerometer } = req.body;
@@ -11,9 +14,19 @@ const create = async (req, res) => {
   } else {
     getAvg = await avg.reduce((a, b) => a + b, 0);
 
-    if (getAvg / 20 > 120 || (getAvg / 20 < 60 && getAvg != undefined)) {
+    if (getAvg / 20 > 100 || (getAvg / 20 < 70 && getAvg != undefined)) {
       console.log("Help " + getAvg / 20);
-      Vital.create({ heartRate, barometer });
+      await Vital.create({ heartRate, barometer });
+
+      if (!contacted) {
+        const number = "9542886794";
+        const data =
+          "A hoot alert has been triggered, please check the app for full details.";
+
+        const sid = await sendText(number, data);
+        console.log("Contacted " + sid);
+        contacted = true;
+      }
     } else {
       console.log("All good " + getAvg / 20);
     }
@@ -24,7 +37,11 @@ const create = async (req, res) => {
 
   const io = res.locals["socketio"];
 
-  io.emit("vitals", { heartRate, barometer, accelerometer });
+  io.emit("vitals", {
+    heartRate,
+    barometer: barometer.toString(),
+    accelerometer
+  });
 
   res.send({ success: true });
 };

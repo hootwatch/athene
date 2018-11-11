@@ -7,7 +7,7 @@ import courier from "../controllers/courier";
 const apiRouter = Router();
 
 /* ------ User ---- */
-apiRouter.get("/auth", user.auth);
+// apiRouter.get("/auth", user.auth);
 apiRouter.get("/user", user.read);
 
 /* ------ Vital ---- */

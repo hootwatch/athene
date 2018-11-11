@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const vitalSchema = new mongoose.Schema({
   heartRate: { type: String, required: true },
   barometer: { type: String, required: true },
-  time: { type: Date, default: Date.now }
+  time: { type: String, default: Date.now }
 });
 
 const Vital = mongoose.model("Vital", vitalSchema);
